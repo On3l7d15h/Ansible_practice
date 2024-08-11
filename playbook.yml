@@ -1,0 +1,56 @@
+---
+- name: Ejemplos de ansible
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Actualizar cache de software de apt
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: Instalar apache
+    apt:
+      name: apache2
+      state: present
+
+  - name: Instalar cowsay
+    apt:
+      name: cowsay
+      state: present
+
+  - name: Crear un archivo
+    ansible.builtin.file:
+      path: /tmp/hello.txt
+      state: touch
+
+  - name: Copiar un archivo
+    ansible.builtin.copy:
+      src: foo.txt
+      dest: /home/ansible/foo.txt
+
+  - name: Crear carpeta 1
+    file:
+      path: /home/ansible/assets/photos
+      state: directory
+
+  - name: Crear carpeta 2
+    file:
+      path: /home/ansible/assets/videos
+      state: directory
+
+  - name: Iniciar un servicio (Apache)
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+
+  - name: Agregar un usuario al servidor
+    user:
+      name: root
+      groups: sudo
+      state: present
+      create_home: yes
+    
+  - name: Ejecutar un Script
+    script: script.sh
